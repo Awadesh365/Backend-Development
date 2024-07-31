@@ -5,11 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "node Backend/server.js",
-    "dev" : "nodemon Backend/server.js"
+    "dev": "nodemon Backend/server.js"
   },
   "author": "Awadesh",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.4"
