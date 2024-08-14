@@ -1,25 +1,44 @@
+require('dotenv').config()
 const express = require('express');
-const productRouter = require("./routes/product.route.js")
-const userRouter = require("./routes/user.route.js")
-
-const morgan = require('morgan')
-
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const cors = require('cors');
 const server = express();
+const path = require('path');
+const productRouter = require('./routes/product')
+const userRouter = require('./routes/user')
+console.log('env',process.env.DB_PASSWORD)
+
+//db connection
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect(process.env.MONGO_URL);
+  console.log('database connected')
+}
+//Schema
 
 
-// will read json type body  (will be enabled) [body parser previously known]
-server.use(express.json())
-
-// server.use(express.urlencoded())
-// server.use(morgan("default"))
-server.use(express.static('public'))
-
-// middleware to attach the router to server
-server.use("/products", productRouter.router)
-server.use("/users", userRouter.router)
 
 
-server.listen(8080, (req, res) => {
-  console.log("server is running");
 
+
+
+
+//bodyParser
+server.use(cors());
+server.use(express.json());
+server.use(morgan('default'));
+server.use(express.static(path.resolve(__dirname,process.env.PUBLIC_DIR)));
+server.use('/products',productRouter.router);
+server.use('/users',userRouter.router);
+server.use('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'build','index.html'))
 })
+
+
+
+
+server.listen(process.env.PORT, () => {
+  console.log('server started');
+});
