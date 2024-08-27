@@ -2,7 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 dotenv.config();
-import userRouter from "./routes/user.route.js";
+import userRouter from "./routes/user.route.js"
 
 // connect DB using Promesis
 mongoose
