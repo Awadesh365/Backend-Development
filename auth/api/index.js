@@ -21,6 +21,18 @@ app.use("/api/user", userRouter)
 
 app.use("/api/auth", authRouter)
 
+// middleware to show error in a good formet
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal server Error";
+
+    return res.status(statusCode || 500).json({
+        success: false,
+        message,
+        statusCode,
+    });
+});
+
 app.listen(3000, () => {
     console.log("server is running in port 3000");
 })
